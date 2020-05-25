@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: apps-rs
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      owner: lsw0504
+  # 여기부턴 app 속성
+  template:
+    metadata:
+      # name: apps
+      labels:
+        owner: lsw0504
+        type: stack
+    spec:
+      containers:
+      - name: flask-app
+        image: lsw0504/flask-app:latest
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9999
+      - name: node-app
+        image: lsw0504/node-app:latest
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
